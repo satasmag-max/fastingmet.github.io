@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══ SEO: PRIMARY META ═══ -->
+<title>FastingMet — Intermittent Fasting Calculator | 16:8, 18:6, 20:4 TDEE & Macro Planner</title>
+<meta name="description" content="Free intermittent fasting calculator. Calculate your TDEE, BMR, and flexible macros for 16:8, 18:6, or 20:4 fasting. Supports cutting, bulking, and maintenance goals. Imperial & metric. No sign-up.">
+<meta name="keywords" content="intermittent fasting calculator, 16 8 fasting calculator, TDEE calculator for intermittent fasting, how many calories to eat during 16:8, best macros for intermittent fasting weight loss, 18:6 fasting meal plan calculator, calories for cutting intermittent fasting, BMR calculator fasting, mifflin st jeor intermittent fasting, fasting window calculator online free">
+<meta name="author" content="FastingMet">
+<meta name="robots" content="index, follow">
+<meta name="google-site-verification" content="google3b1dd581ae6ab29f">
+<link rel="canonical" href="https://satasmag-max.github.io/fastingmet.github.io">
+
+<!-- ═══ SEO: OPEN GRAPH ═══ -->
+<meta property="og:title" content="FastingMet — Free Intermittent Fasting & Calorie Calculator">
+<meta property="og:description" content="Calculate your fasting window, daily calories, and macros for cutting, bulking, or maintenance. Supports 16:8, 18:6, 20:4 protocols with live auto-calculation.">
+<meta property="og:url" content="https://satasmag-max.github.io/fastingmet.github.io">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://satasmag-max.github.io/fastingmet.github.io/og-image.png">
+
+<!-- ═══ SEO: TWITTER CARD ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FastingMet — Intermittent Fasting Calculator">
+<meta name="twitter:description" content="Free IF calculator. Live macros, fasting windows & TDEE for 16:8, 18:6, 20:4 protocols.">
+
+<!-- ═══ SEO: SCHEMA.ORG ═══ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"FastingMet",
+  "url":"https://satasmag-max.github.io/fastingmet.github.io",
+  "description":"Free intermittent fasting calculator with TDEE, BMR, macros (protein, carbs, fats), eating window planner, and live fasting timer.",
+  "applicationCategory":"HealthApplication",
+  "operatingSystem":"All",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700;9..40,900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════ */
+:root {
+  --bg-deep:      #0a0d12;
+  --bg-card:      #111620;
+  --bg-card2:     #161c28;
+  --bg-glass:     rgba(255,255,255,0.04);
+  --gold:         #c9a84c;
+  --gold-light:   #e8c96d;
+  --gold-dim:     rgba(201,168,76,0.18);
+  --teal:         #2dd4bf;
+  --teal-dim:     rgba(45,212,191,0.12);
+  --rose:         #f87171;
+  --rose-dim:     rgba(248,113,113,0.12);
+  --green:        #4ade80;
+  --green-dim:    rgba(74,222,128,0.12);
+  --violet:       #a78bfa;
+  --violet-dim:   rgba(167,139,250,0.12);
+  --blue:         #60a5fa;
+  --text:         #e8eaf0;
+  --text-soft:    #8b95a8;
+  --text-muted:   #4a5568;
+  --border:       rgba(255,255,255,0.07);
+  --border-gold:  rgba(201,168,76,0.3);
+  --shadow:       0 20px 60px rgba(0,0,0,0.5);
+  --radius:       18px;
+  --radius-sm:    10px;
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg-deep);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  font-feature-settings:"lnum" 1,"tnum" 1; /* force Western digits */
+}
+
+/* ── BACKGROUND */
+body::before {
+  content:''; position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(201,168,76,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(45,212,191,.05) 0%, transparent 60%),
+    repeating-linear-gradient(60deg,transparent,transparent 60px,rgba(255,255,255,.008) 60px,rgba(255,255,255,.008) 61px);
+  pointer-events:none; z-index:0;
+}
+
+/* ══════════════════════════════════════════════════════
+   LAYOUT — 3-COLUMN WITH SIDE AD RAILS
+══════════════════════════════════════════════════════ */
+.site-wrap {
+  display:grid;
+  grid-template-columns:160px 1fr 160px;
+  gap:0;
+  min-height:100vh;
+  position:relative; z-index:1;
+}
+@media(max-width:1100px){ .site-wrap{ grid-template-columns:120px 1fr 120px; } }
+@media(max-width:820px){  .site-wrap{ grid-template-columns:1fr; } }
+
+/* ── SIDE AD RAILS */
+.ad-rail {
+  padding:20px 8px;
+  display:flex; flex-direction:column; align-items:center; gap:20px;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+@media(max-width:820px){ .ad-rail{ display:none; } }
+
+.ad-rail-slot {
+  background:rgba(255,255,255,0.025);
+  border:1px dashed rgba(201,168,76,.18);
+  border-radius:10px;
+  width:100%; min-height:250px;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:6px;
+  color:var(--text-muted); font-size:10px; text-align:center;
+  padding:10px;
+}
+.ad-rail-slot.tall { min-height:600px; }
+.ad-rail-slot .ad-label { font-size:9px; letter-spacing:1px; color:var(--text-muted); opacity:.6; }
+
+.page-wrap {
+  position:relative; z-index:1;
+  max-width:860px; margin:0 auto; padding:20px 16px 60px;
+}
+
+/* ── HORIZONTAL AD SLOTS */
+.ad-slot {
+  background:var(--bg-glass);
+  border:1px dashed rgba(201,168,76,.2);
+  border-radius:var(--radius-sm);
+  padding:14px; text-align:center;
+  color:var(--text-muted); font-size:11px;
+  margin:20px 0; min-height:90px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  overflow:hidden; width:100%;
+}
+.ad-slot iframe { max-width:100% !important; width:100% !important; }
+.ad-slot .ad-label { font-size:9px; letter-spacing:1.5px; opacity:.5; }
+@media(max-width:768px){
+  .ad-slot { min-height:60px; padding:8px; margin:12px 0; }
+  .ad-slot iframe { height:60px !important; }
+}
+
+/* ══════════════════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════════════════ */
+@keyframes pulse      { 0%,100%{opacity:1}  50%{opacity:.3} }
+@keyframes fadeDown   { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp     { from{opacity:0;transform:translateY(20px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes shake      { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+@keyframes ripple     { to{width:500px;height:500px;opacity:0} }
+@keyframes blink      { 0%,100%{opacity:1} 50%{opacity:.35} }
+@keyframes popIn      { 0%{transform:scale(.8);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+@keyframes rainbowGlow{ 0%{box-shadow:0 0 20px rgba(201,168,76,.5)} 33%{box-shadow:0 0 20px rgba(45,212,191,.5)} 66%{box-shadow:0 0 20px rgba(167,139,250,.5)} 100%{box-shadow:0 0 20px rgba(201,168,76,.5)} }
+@keyframes floatUp    { from{transform:translateY(0);opacity:1} to{transform:translateY(-120px);opacity:0} }
+@keyframes spinPop    { 0%{transform:scale(0) rotate(-180deg);opacity:0} 70%{transform:scale(1.2) rotate(10deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+@keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0} }
+
+/* ══════════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════════ */
+.hero { text-align:center; padding:48px 20px 32px; }
+.hero-logo { font-size:28px; font-weight:900; letter-spacing:-1px; color:var(--gold-light); margin-bottom:4px; animation:fadeDown .5s ease both; }
+.hero-logo span { color:var(--teal); }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--gold-dim); border:1px solid var(--border-gold);
+  border-radius:100px; padding:5px 16px;
+  font-size:11px; color:var(--gold); letter-spacing:1px;
+  margin-bottom:16px; animation:fadeDown .6s .05s ease both;
+}
+.hero-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+
+.hero h1 { font-size:clamp(22px,4.5vw,40px); font-weight:900; line-height:1.2; animation:fadeDown .6s .1s ease both; }
+.hero h1 span {
+  background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero p { color:var(--text-soft); font-size:14px; margin-top:10px; line-height:1.8; animation:fadeDown .6s .2s ease both; }
+
+.live-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.25);
+  border-radius:100px; padding:4px 14px;
+  font-size:11px; color:var(--green); letter-spacing:.5px;
+  margin-bottom:12px; opacity:0; transition:opacity .4s;
+}
+.live-badge.show { opacity:1; }
+.live-badge .live-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 1.2s infinite; }
+
+/* ══════════════════════════════════════════════════════
+   CARD
+══════════════════════════════════════════════════════ */
+.card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px; margin-bottom:18px;
+  box-shadow:var(--shadow); animation:fadeUp .5s ease both;
+}
+.card-title {
+  font-size:17px; font-weight:700; color:var(--gold);
+  margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+.card-title .icon {
+  width:34px; height:34px; border-radius:9px; background:var(--gold-dim);
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+}
+
+/* ══════════════════════════════════════════════════════
+   UNIT TOGGLE
+══════════════════════════════════════════════════════ */
+.unit-toggle {
+  display:inline-flex; background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:100px; padding:3px; gap:2px; margin-bottom:20px;
+}
+.unit-btn {
+  padding:6px 18px; border-radius:100px; border:none;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+  cursor:pointer; transition:all .2s; color:var(--text-muted); background:transparent;
+}
+.unit-btn.active { background:var(--gold); color:#0a0d12; }
+
+/* ══════════════════════════════════════════════════════
+   GENDER CARDS
+══════════════════════════════════════════════════════ */
+.gender-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.gender-card {
+  position:relative; cursor:pointer;
+  background:var(--bg-card2); border:2px solid var(--border);
+  border-radius:var(--radius-sm); padding:16px;
+  text-align:center; transition:all .25s; user-select:none;
+}
+.gender-card input[type=radio] { position:absolute; opacity:0; width:0; height:0; }
+.gender-card .gicon  { font-size:32px; margin-bottom:6px; display:block; }
+.gender-card .glabel { font-size:14px; font-weight:600; }
+.gender-card:hover { border-color:var(--border-gold); }
+.gender-card.selected { border-color:var(--gold); background:var(--gold-dim); box-shadow:0 0 0 1px var(--gold-dim),0 6px 20px rgba(201,168,76,.12); }
+.gender-card.selected .glabel { color:var(--gold-light); }
+
+/* ══════════════════════════════════════════════════════
+   FORM INPUTS
+══════════════════════════════════════════════════════ */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:520px){ .form-grid{grid-template-columns:1fr;} }
+
+.field { display:flex; flex-direction:column; gap:6px; }
+.field label { font-size:12px; color:var(--text-soft); font-weight:500; letter-spacing:.3px; }
+.field input,.field select {
+  background:var(--bg-card2); border:1.5px solid var(--border);
+  border-radius:var(--radius-sm); padding:11px 13px;
+  color:var(--text); font-family:'DM Sans',sans-serif;
+  font-size:15px; width:100%;
+  transition:border-color .2s,box-shadow .2s; outline:none;
+}
+.field input:focus,.field select:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,.1); }
+.field select option { background:var(--bg-card); }
+.field input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1) brightness(.6); cursor:pointer; }
+.field input.error { border-color:var(--rose)!important; animation:shake .4s ease; }
+
+.input-group { position:relative; }
+.input-group input { padding-right:50px; }
+.input-unit {
+  position:absolute; right:13px; top:50%; transform:translateY(-50%);
+  font-size:12px; color:var(--text-muted); font-weight:600; pointer-events:none;
+}
+
+/* Imperial sub-row for ft/in */
+.imperial-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+/* ══════════════════════════════════════════════════════
+   PROTOCOL CARDS
+══════════════════════════════════════════════════════ */
+.protocol-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.proto-card {
+  position:relative; cursor:pointer;
+  background:var(--bg-card2); border:2px solid var(--border);
+  border-radius:var(--radius-sm); padding:13px 8px;
+  text-align:center; transition:all .25s;
+}
+.proto-card input[type=radio] { position:absolute; opacity:0; width:0; height:0; }
+.proto-card .ptitle { font-size:17px; font-weight:900; color:var(--text); }
+.proto-card .psub   { font-size:10px; color:var(--text-muted); margin-top:3px; line-height:1.4; }
+.proto-card:hover   { border-color:var(--border-gold); }
+.proto-card.selected { border-color:var(--teal); background:var(--teal-dim); }
+.proto-card.selected .ptitle { color:var(--teal); }
+
+/* ══════════════════════════════════════════════════════
+   GOAL SELECTOR
+══════════════════════════════════════════════════════ */
+.goal-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.goal-card {
+  position:relative; cursor:pointer;
+  background:var(--bg-card2); border:2px solid var(--border);
+  border-radius:var(--radius-sm); padding:14px 10px;
+  text-align:center; transition:all .25s; user-select:none;
+}
+.goal-card input[type=radio] { position:absolute; opacity:0; width:0; height:0; }
+.goal-card .g-emoji { font-size:26px; display:block; margin-bottom:5px; }
+.goal-card .g-title { font-size:13px; font-weight:700; }
+.goal-card .g-sub   { font-size:10px; color:var(--text-muted); margin-top:3px; }
+.goal-card:hover    { border-color:var(--border-gold); }
+
+.goal-card.cut.selected   { border-color:var(--rose);   background:var(--rose-dim); }
+.goal-card.bulk.selected  { border-color:var(--violet); background:var(--violet-dim); }
+.goal-card.maint.selected { border-color:var(--teal);   background:var(--teal-dim); }
+.goal-card.cut.selected   .g-title { color:var(--rose); }
+.goal-card.bulk.selected  .g-title { color:var(--violet); }
+.goal-card.maint.selected .g-title { color:var(--teal); }
+
+/* ══════════════════════════════════════════════════════
+   CALCULATE BUTTON
+══════════════════════════════════════════════════════ */
+.btn-calc {
+  width:100%; padding:16px;
+  background:linear-gradient(135deg,var(--gold),#a8762d);
+  border:none; border-radius:var(--radius-sm);
+  color:#0a0d12; font-family:'DM Sans',sans-serif;
+  font-size:16px; font-weight:900; letter-spacing:.5px;
+  cursor:pointer; margin-top:6px;
+  transition:transform .15s,box-shadow .2s;
+  box-shadow:0 8px 30px rgba(201,168,76,.3);
+}
+.btn-calc:hover  { transform:translateY(-2px); box-shadow:0 12px 40px rgba(201,168,76,.4); }
+.btn-calc:active { transform:translateY(0) scale(.98); }
+
+/* ══════════════════════════════════════════════════════
+   RESULTS
+══════════════════════════════════════════════════════ */
+#results { display:none; }
+#results.visible { display:block; }
+
+.stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:18px; }
+.stat-card {
+  background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--radius-sm); padding:16px 14px;
+  text-align:center; position:relative; overflow:hidden;
+}
+.stat-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; }
+.stat-card.gold::before { background:linear-gradient(to bottom,var(--gold),transparent); }
+.stat-card.teal::before { background:linear-gradient(to bottom,var(--teal),transparent); }
+.stat-card.rose::before { background:linear-gradient(to bottom,var(--rose),transparent); }
+.stat-label { font-size:11px; color:var(--text-muted); margin-bottom:5px; }
+.stat-value { font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; }
+.stat-card.gold .stat-value { color:var(--gold-light); }
+.stat-card.teal .stat-value { color:var(--teal); }
+.stat-card.rose .stat-value { color:var(--rose); }
+.stat-unit  { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+/* CALORIE HERO */
+.calorie-hero {
+  background:linear-gradient(135deg,#1a1f2e,#0f1419);
+  border:1px solid var(--border-gold); border-radius:var(--radius);
+  padding:26px 20px; text-align:center; margin-bottom:18px;
+  position:relative; overflow:hidden;
+}
+.calorie-hero::after {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:180px; height:180px; border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,.08),transparent 70%);
+  pointer-events:none;
+}
+.calorie-goal-tag {
+  display:inline-block; padding:3px 12px; border-radius:100px;
+  font-size:11px; font-weight:700; letter-spacing:1px; margin-bottom:8px;
+  text-transform:uppercase;
+}
+.calorie-goal-tag.cut  { background:var(--rose-dim);   color:var(--rose); }
+.calorie-goal-tag.bulk { background:var(--violet-dim); color:var(--violet); }
+.calorie-goal-tag.maint{ background:var(--teal-dim);   color:var(--teal); }
+
+.calorie-label { font-size:12px; color:var(--gold); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+.calorie-num {
+  font-size:clamp(46px,9vw,74px); font-weight:900; line-height:1;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  font-variant-numeric:tabular-nums;
+}
+.calorie-sub { font-size:12px; color:var(--text-soft); margin-top:6px; }
+
+/* MACROS */
+.section-label { font-size:10px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px; }
+.macro-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px; }
+@media(max-width:480px){ .macro-grid{grid-template-columns:1fr;} }
+
+.macro-item { background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 12px; }
+.macro-name  { font-size:10px; color:var(--text-muted); margin-bottom:3px; text-transform:uppercase; letter-spacing:.8px; }
+.macro-g     { font-size:24px; font-weight:900; font-variant-numeric:tabular-nums; }
+.macro-kcal  { font-size:10px; color:var(--text-muted); margin-top:2px; margin-bottom:8px; }
+.macro-bar   { height:5px; background:rgba(255,255,255,.06); border-radius:100px; overflow:hidden; }
+.macro-fill  { height:100%; border-radius:100px; transition:width 1s cubic-bezier(.4,0,.2,1); width:0; }
+.macro-item.prot .macro-g    { color:var(--blue); }
+.macro-item.prot .macro-fill { background:linear-gradient(90deg,#3b82f6,var(--blue)); }
+.macro-item.carb .macro-g    { color:var(--gold-light); }
+.macro-item.carb .macro-fill { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+.macro-item.fat  .macro-g    { color:var(--violet); }
+.macro-item.fat  .macro-fill { background:linear-gradient(90deg,#7c3aed,var(--violet)); }
+
+/* COPY BUTTON */
+.btn-copy-wrap { margin-bottom:18px; }
+.btn-copy {
+  width:100%; padding:14px 18px;
+  background:var(--bg-card2); border:1.5px solid var(--border-gold);
+  border-radius:var(--radius-sm); color:var(--gold-light);
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px;
+  transition:all .25s; position:relative; overflow:hidden;
+}
+.btn-copy:hover { background:var(--gold-dim); transform:translateY(-1px); box-shadow:0 0 24px rgba(201,168,76,.15); }
+.btn-copy.copied { border-color:var(--green); color:var(--green); background:var(--green-dim); }
+.btn-copy .copy-ripple {
+  position:absolute; border-radius:50%; background:rgba(201,168,76,.2);
+  width:0; height:0; transform:translate(-50%,-50%); animation:ripple .65s ease-out forwards;
+}
+
+/* FASTING TIMELINE */
+.fast-timeline { background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin-bottom:18px; }
+.timeline-row  { display:flex; gap:10px; align-items:stretch; margin-top:14px; }
+.tl-block { border-radius:10px; padding:12px; display:flex; flex-direction:column; justify-content:center; }
+.tl-block.fasting { background:rgba(248,113,113,.08); border:1px solid rgba(248,113,113,.2); flex:3; }
+.tl-block.eating  { background:rgba(45,212,191,.08);  border:1px solid rgba(45,212,191,.2);  flex:1; }
+.tl-tag  { font-size:10px; letter-spacing:1px; margin-bottom:3px; font-weight:700; }
+.tl-block.fasting .tl-tag { color:var(--rose); }
+.tl-block.eating  .tl-tag { color:var(--teal); }
+.tl-time { font-size:14px; font-weight:700; }
+.tl-dur  { font-size:12px; color:var(--text-muted); margin-top:2px; }
+
+.time-chips { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.chip {
+  background:var(--bg-glass); border:1px solid var(--border);
+  border-radius:100px; padding:5px 12px; font-size:12px; color:var(--text-soft);
+}
+.chip span { color:var(--text); font-weight:700; }
+
+/* ══════════════════════════════════════════════════════
+   COLLAPSIBLE CHEAT SHEET
+══════════════════════════════════════════════════════ */
+.collapsible-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; box-shadow:var(--shadow); }
+.collapsible-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 24px; cursor:pointer; user-select:none;
+  transition:background .2s;
+}
+.collapsible-header:hover { background:rgba(255,255,255,.02); }
+.collapsible-header-left { display:flex; align-items:center; gap:10px; font-size:16px; font-weight:700; color:var(--gold); }
+.collapsible-header-left .icon { width:32px; height:32px; border-radius:9px; background:var(--gold-dim); display:flex; align-items:center; justify-content:center; font-size:16px; }
+.collapse-arrow {
+  width:26px; height:26px; border-radius:50%;
+  background:var(--bg-card2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; color:var(--text-muted);
+  transition:transform .3s;
+}
+.collapsible-card.open .collapse-arrow { transform:rotate(180deg); }
+.collapsible-body {
+  max-height:0; overflow:hidden;
+  transition:max-height .45s cubic-bezier(.4,0,.2,1), padding .3s;
+  padding:0 24px;
+}
+.collapsible-card.open .collapsible-body { max-height:700px; padding:0 24px 24px; }
+
+.cheat-grid  { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:520px){ .cheat-grid{grid-template-columns:1fr;} }
+.cheat-col   { border-radius:var(--radius-sm); padding:16px 14px; }
+.cheat-col.allowed  { background:rgba(74,222,128,.06);  border:1px solid rgba(74,222,128,.2); }
+.cheat-col.forbidden{ background:rgba(248,113,113,.06); border:1px solid rgba(248,113,113,.2); }
+.cheat-col-title { font-size:12px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:5px; }
+.cheat-col.allowed  .cheat-col-title { color:var(--green); }
+.cheat-col.forbidden .cheat-col-title { color:var(--rose); }
+.cheat-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.cheat-list li { font-size:12px; color:var(--text-soft); display:flex; align-items:flex-start; gap:7px; line-height:1.5; }
+.cheat-icon { flex-shrink:0; font-size:12px; margin-top:1px; font-weight:700; }
+.cheat-col.allowed   .cheat-icon { color:var(--green); }
+.cheat-col.forbidden .cheat-icon { color:var(--rose); }
+
+/* ══════════════════════════════════════════════════════
+   LIVE FASTING TIMER — CELEBRATION READY
+══════════════════════════════════════════════════════ */
+.timer-section {
+  background:linear-gradient(135deg,#0f1a1a,#0d1520);
+  border:1px solid rgba(45,212,191,.25);
+  border-radius:var(--radius); padding:26px 22px;
+  text-align:center; margin-bottom:18px;
+  transition:border-color .6s, background .6s;
+  position:relative; overflow:hidden;
+}
+.timer-section.celebrating {
+  border-color:var(--gold);
+  background:linear-gradient(135deg,#1c1a0e,#110f14);
+  animation:rainbowGlow 2s linear infinite;
+}
+.timer-section.celebrating::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(201,168,76,.09),transparent);
+  pointer-events:none;
+}
+
+.timer-title { font-size:12px; color:var(--teal); letter-spacing:2px; font-weight:700; margin-bottom:14px; text-transform:uppercase; }
+.timer-section.celebrating .timer-title { color:var(--gold); }
+
+.timer-progress-wrap { height:4px; background:rgba(255,255,255,.06); border-radius:100px; overflow:hidden; margin-bottom:18px; }
+.timer-progress-bar  { height:100%; background:linear-gradient(90deg,var(--teal),#6ee7b7); border-radius:100px; transition:width .5s linear; width:0; }
+.timer-progress-bar.done { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+
+.timer-display {
+  font-size:clamp(42px,9vw,74px); font-weight:900;
+  color:var(--teal); letter-spacing:5px;
+  font-variant-numeric:tabular-nums; line-height:1;
+  margin-bottom:8px; font-family:'Space Grotesk',monospace;
+  transition:color .5s;
+}
+.timer-display.done { color:var(--gold-light); animation:blink 1s ease 4; }
+
+/* Emoji burst layer */
+.emoji-burst {
+  position:absolute; pointer-events:none;
+  font-size:32px; display:none;
+  animation:floatUp 1.5s ease-out forwards;
+}
+
+.timer-celebrate-msg {
+  font-size:17px; font-weight:700; color:var(--gold-light);
+  margin-bottom:8px; display:none; animation:popIn .5s ease both;
+}
+.timer-section.celebrating .timer-celebrate-msg { display:block; }
+
+.timer-state { font-size:12px; color:var(--text-soft); margin-bottom:20px; }
+.timer-state span { color:var(--teal); font-weight:700; }
+.timer-section.celebrating .timer-state span { color:var(--gold); }
+
+.timer-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.btn-timer {
+  padding:10px 24px; border-radius:100px; border:none;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700;
+  cursor:pointer; transition:all .2s;
+}
+.btn-start { background:var(--teal); color:#0a0d12; }
+.btn-start:hover { filter:brightness(1.1); transform:translateY(-1px); }
+.btn-start:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+.btn-reset { background:var(--bg-glass); border:1px solid var(--border); color:var(--text-soft); }
+.btn-reset:hover { border-color:var(--rose); color:var(--rose); }
+
+/* ══════════════════════════════════════════════════════
+   CELEBRATION OVERLAY (CSS confetti + sparkles)
+══════════════════════════════════════════════════════ */
+#confetti-canvas { position:fixed; inset:0; z-index:9000; pointer-events:none; display:none; }
+
+/* Floating emoji celebration */
+#emoji-layer { position:fixed; inset:0; z-index:9001; pointer-events:none; overflow:hidden; display:none; }
+.fly-emoji {
+  position:absolute; bottom:-40px;
+  font-size:28px; pointer-events:none;
+  animation:floatUp 2.5s ease-out forwards;
+}
+
+/* ══════════════════════════════════════════════════════
+   SEO CONTENT SECTION
+══════════════════════════════════════════════════════ */
+.seo-section {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:32px 28px; margin-bottom:20px;
+}
+.seo-section h2 { font-size:20px; font-weight:800; color:var(--gold-light); margin-bottom:14px; }
+.seo-section h3 { font-size:16px; font-weight:700; color:var(--teal); margin:20px 0 8px; }
+.seo-section p  { font-size:13px; color:var(--text-soft); line-height:1.85; margin-bottom:10px; }
+.seo-section ul { margin:8px 0 12px 16px; }
+.seo-section ul li { font-size:13px; color:var(--text-soft); line-height:1.8; list-style:disc; }
+.seo-section strong { color:var(--text); }
+.seo-faq { margin-top:20px; }
+.seo-faq .faq-item { border-top:1px solid var(--border); padding:14px 0; }
+.seo-faq .faq-q { font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.seo-faq .faq-a { font-size:13px; color:var(--text-soft); line-height:1.8; }
+
+/* ══════════════════════════════════════════════════════
+   MISC
+══════════════════════════════════════════════════════ */
+.animate-in { animation:fadeUp .5s ease both; }
+footer {
+  text-align:center; padding:28px 16px 10px;
+  color:var(--text-muted); font-size:12px; line-height:2;
+  border-top:1px solid var(--border); margin-top:20px;
+}
+footer a { color:var(--gold); text-decoration:none; }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg-deep); }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:100px; }
+
+/* ══════════════════════════════════════════════════════
+   XP SYSTEM
+══════════════════════════════════════════════════════ */
+@keyframes xpBarGrow    { from{width:0} to{width:var(--xp-w)} }
+@keyframes xpToastIn    { 0%{opacity:0;transform:translateY(12px) scale(.9)} 60%{transform:translateY(-4px) scale(1.04)} 100%{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes xpToastOut   { to{opacity:0;transform:translateY(-8px)} }
+@keyframes xpBadgePop   { 0%{transform:scale(.7) rotate(-15deg);opacity:0} 70%{transform:scale(1.15) rotate(4deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+@keyframes xpShine      { 0%{background-position:200% center} 100%{background-position:-200% center} }
+
+/* Toast */
+.xp-toast {
+  background:linear-gradient(135deg,#1a2234,#0f1a14);
+  border:1.5px solid var(--gold);
+  border-radius:14px; padding:14px 18px;
+  margin-bottom:18px; text-align:center;
+  font-size:15px; font-weight:700; color:var(--gold-light);
+  animation:xpToastIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow:0 0 30px rgba(201,168,76,.25);
+}
+
+/* Level badge + stats row */
+.xp-level-row {
+  display:flex; align-items:center; gap:20px; margin-bottom:20px;
+}
+.xp-level-badge {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  background:var(--bg-card2); border:1.5px solid var(--border-gold);
+  border-radius:14px; padding:14px 18px; min-width:90px;
+  animation:xpBadgePop .5s ease both;
+}
+.xp-badge-icon  { font-size:36px; line-height:1; }
+.xp-badge-label { font-size:11px; font-weight:700; color:var(--gold); letter-spacing:.5px; }
+
+.xp-stats-col   { flex:1; }
+.xp-points-row  { display:flex; align-items:baseline; gap:8px; margin-bottom:4px; }
+.xp-pts-num     { font-size:36px; font-weight:900; color:var(--gold-light); font-variant-numeric:tabular-nums; }
+.xp-pts-label   { font-size:13px; color:var(--text-soft); font-weight:600; }
+.xp-next-row    { font-size:12px; color:var(--text-muted); }
+.xp-next-row span { color:var(--teal); font-weight:700; }
+
+/* Progress bar */
+.xp-bar-wrap    { margin-bottom:18px; }
+.xp-bar-track   {
+  position:relative; height:22px;
+  background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:100px; overflow:hidden;
+}
+.xp-bar-fill {
+  height:100%; border-radius:100px; width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--teal));
+  background-size:200% auto;
+  animation:xpShine 3s linear infinite;
+  transition:width .8s cubic-bezier(.34,1.2,.64,1);
+  box-shadow:0 0 12px rgba(201,168,76,.5);
+}
+.xp-bar-label {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; color:#fff; mix-blend-mode:difference;
+  pointer-events:none;
+}
+.xp-level-labels {
+  display:flex; justify-content:space-between;
+  font-size:11px; color:var(--text-muted); margin-top:5px;
+  padding:0 2px;
+}
+
+/* Protocol chips */
+.xp-proto-chips { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+.xp-proto-chip {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:8px 14px; border-radius:10px; border:1.5px solid;
+  min-width:70px;
+}
+.xp-chip-proto { font-size:14px; font-weight:900; }
+.xp-chip-pts   { font-size:10px; font-weight:600; opacity:.8; }
+.chip16 { border-color:var(--teal);   background:var(--teal-dim);   color:var(--teal); }
+.chip18 { border-color:var(--violet); background:var(--violet-dim); color:var(--violet); }
+.chip20 { border-color:var(--gold);   background:var(--gold-dim);   color:var(--gold-light); }
+
+/* Buttons */
+.btn-log-fast {
+  flex:1; padding:12px 20px;
+  background:linear-gradient(135deg,#1a3a2a,#0d2018);
+  border:1.5px solid var(--green); border-radius:var(--radius-sm);
+  color:var(--green); font-family:'DM Sans',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer;
+  transition:all .2s; min-width:180px;
+}
+.btn-log-fast:hover { background:var(--green-dim); transform:translateY(-1px); box-shadow:0 6px 20px rgba(74,222,128,.2); }
+.btn-log-fast:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+
+.btn-reset-xp {
+  padding:12px 18px; background:var(--bg-glass);
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  color:var(--text-muted); font-family:'DM Sans',sans-serif;
+  font-size:13px; cursor:pointer; transition:all .2s;
+}
+.btn-reset-xp:hover { border-color:var(--rose); color:var(--rose); }
+
+/* Chart */
+.xp-chart-wrap  { margin-top:22px; }
+.xp-chart-title { font-size:13px; font-weight:700; color:var(--text-soft); margin-bottom:10px; }
+.xp-chart-empty { text-align:center; padding:30px; color:var(--text-muted); font-size:13px; }
+#xp-chart       { width:100% !important; }
+</style>
+</head>
+<body>
+
+<!-- CELEBRATION LAYERS -->
+<canvas id="confetti-canvas"></canvas>
+<div id="emoji-layer"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     3-COLUMN SITE LAYOUT
+══════════════════════════════════════════════════════ -->
+<div class="site-wrap">
+
+  <!-- LEFT AD RAIL -->
+  <aside class="ad-rail" aria-label="Advertisement">
+    <div class="ad-rail-slot">
+      <!-- ADSENSE PLACEHOLDER — LEFT RAIL 160x600 -->
+      <!-- Paste AdSense Wide Skyscraper here --><script>
+  atOptions = {
+    'key' : '450f01af9bb5b46c28191370e06d9810',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/450f01af9bb5b46c28191370e06d9810/invoke.js"></script>
+
+    
+    </div>
+    <div class="ad-rail-slot" style="min-height:300px">
+      <!-- ADSENSE PLACEHOLDER — LEFT RAIL 160x300 --><script>
+  atOptions = {
+    'key' : '5a1c89969f763291060242a14b66e379',
+    'format' : 'iframe',
+    'height' : 300,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/5a1c89969f763291060242a14b66e379/invoke.js"></script>
+
+    
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-wrap">
+
+    <!-- ═══ HERO ═══ -->
+    <div class="hero">
+      <div class="hero-logo">Fasting<span>Met</span></div>
+      <div class="hero-badge"><span class="dot"></span> Free · No Sign-Up · Data Saved Locally</div>
+      <h1>Intermittent Fasting &<br><span>Flexible Calorie Calculator</span></h1>
+      <p>Live TDEE, BMR, macros &amp; fasting windows for 16:8, 18:6 &amp; 20:4<br>— metric &amp; imperial, three goals, zero friction.</p>
+    </div>
+
+    <!-- ADSENSE — TOP BANNER -->
+    <div class="ad-slot">
+      <!-- ADSENSE PLACEHOLDER — TOP BANNER responsive --><script>
+  var adW = Math.min(728, window.innerWidth - 32);
+  var adH = adW < 400 ? 60 : 90;
+  atOptions = {
+    'key' : 'dabcef18b2054e5d482c8df8d5ee065a',
+    'format' : 'iframe',
+    'height' : adH,
+    'width' : adW,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/dabcef18b2054e5d482c8df8d5ee065a/invoke.js"></script>
+
+      
+    </div>
+
+    <!-- ═══ FORM: PERSONAL DATA ═══ -->
+    <div class="card" style="animation-delay:.08s">
+      <div class="card-title"><div class="icon">👤</div> Your Body Stats</div>
+
+      <!-- UNIT TOGGLE -->
+      <div style="margin-bottom:18px">
+        <label style="font-size:12px;color:var(--text-soft);display:block;margin-bottom:8px">Unit System</label>
+        <div class="unit-toggle">
+          <button class="unit-btn active" id="btn-metric" onclick="setUnit('metric')">Metric (kg / cm)</button>
+          <button class="unit-btn"        id="btn-imperial" onclick="setUnit('imperial')">Imperial (lb / ft·in)</button>
+        </div>
+      </div>
+
+      <!-- GENDER -->
+      <div class="field" style="margin-bottom:18px">
+        <label>Gender</label>
+        <div class="gender-row">
+          <label class="gender-card selected" id="card-male">
+            <input type="radio" name="gender" value="male" checked>
+            <span class="gicon">♂️</span><span class="glabel">Male</span>
+          </label>
+          <label class="gender-card" id="card-female">
+            <input type="radio" name="gender" value="female">
+            <span class="gicon">♀️</span><span class="glabel">Female</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- METRIC FIELDS -->
+      <div id="fields-metric" class="form-grid">
+        <div class="field">
+          <label>Weight</label>
+          <div class="input-group">
+            <input type="number" id="weight-kg" min="20" max="400" placeholder="75" inputmode="decimal">
+            <span class="input-unit">kg</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Height</label>
+          <div class="input-group">
+            <input type="number" id="height-cm" min="100" max="260" placeholder="175" inputmode="decimal">
+            <span class="input-unit">cm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Age</label>
+          <div class="input-group">
+            <input type="number" id="age-m" min="10" max="100" placeholder="28" inputmode="decimal">
+            <span class="input-unit">yrs</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Activity Level</label>
+          <select id="activity-m">
+            <option value="1.2">Sedentary — desk job, no exercise</option>
+            <option value="1.375">Lightly Active — 1–3 days/wk</option>
+            <option value="1.55" selected>Moderately Active — 3–5 days/wk</option>
+            <option value="1.725">Very Active — intense training daily</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- IMPERIAL FIELDS -->
+      <div id="fields-imperial" class="form-grid" style="display:none">
+        <div class="field">
+          <label>Weight (lb)</label>
+          <div class="input-group">
+            <input type="number" id="weight-lb" min="44" max="880" placeholder="165" inputmode="decimal">
+            <span class="input-unit">lb</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Height (ft &amp; in)</label>
+          <div class="imperial-row">
+            <div class="input-group">
+              <input type="number" id="height-ft" min="3" max="8" placeholder="5" inputmode="decimal">
+              <span class="input-unit">ft</span>
+            </div>
+            <div class="input-group">
+              <input type="number" id="height-in" min="0" max="11" placeholder="9" inputmode="decimal">
+              <span class="input-unit">in</span>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Age</label>
+          <div class="input-group">
+            <input type="number" id="age-i" min="10" max="100" placeholder="28" inputmode="decimal">
+            <span class="input-unit">yrs</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Activity Level</label>
+          <select id="activity-i">
+            <option value="1.2">Sedentary — desk job, no exercise</option>
+            <option value="1.375">Lightly Active — 1–3 days/wk</option>
+            <option value="1.55" selected>Moderately Active — 3–5 days/wk</option>
+            <option value="1.725">Very Active — intense training daily</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FORM: PROTOCOL ═══ -->
+    <div class="card" style="animation-delay:.12s">
+      <div class="card-title"><div class="icon">🌙</div> Fasting Protocol &amp; Eating Window</div>
+
+      <div class="field" style="margin-bottom:16px">
+        <label>Choose Your Fasting Protocol</label>
+        <div class="protocol-row">
+          <label class="proto-card" id="proto-16">
+            <input type="radio" name="protocol" value="16">
+            <div class="ptitle">16:8</div>
+            <div class="psub">16 hrs fast<br>8 hrs eating</div>
+          </label>
+          <label class="proto-card selected" id="proto-18">
+            <input type="radio" name="protocol" value="18" checked>
+            <div class="ptitle">18:6</div>
+            <div class="psub">18 hrs fast<br>6 hrs eating</div>
+          </label>
+          <label class="proto-card" id="proto-20">
+            <input type="radio" name="protocol" value="20">
+            <div class="ptitle">20:4</div>
+            <div class="psub">20 hrs fast<br>4 hrs eating</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>⏰ Eating Window Start Time</label>
+          <input type="time" id="startTime" value="12:00">
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FORM: GOAL ═══ -->
+    <div class="card" style="animation-delay:.16s">
+      <div class="card-title"><div class="icon">🎯</div> Your Goal</div>
+      <div class="goal-row">
+        <label class="goal-card cut selected" id="goal-cut">
+          <input type="radio" name="goal" value="cut" checked>
+          <span class="g-emoji">🔥</span>
+          <div class="g-title">Cutting</div>
+          <div class="g-sub">−500 kcal/day</div>
+        </label>
+        <label class="goal-card bulk" id="goal-bulk">
+          <input type="radio" name="goal" value="bulk">
+          <span class="g-emoji">💪</span>
+          <div class="g-title">Bulking</div>
+          <div class="g-sub">+300 kcal/day</div>
+        </label>
+        <label class="goal-card maint" id="goal-maint">
+          <input type="radio" name="goal" value="maint">
+          <span class="g-emoji">⚖️</span>
+          <div class="g-title">Maintenance</div>
+          <div class="g-sub">= TDEE</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- LIVE BADGE + BUTTON -->
+    <div style="text-align:center;margin-bottom:6px">
+      <div class="live-badge" id="live-badge">
+        <span class="live-dot"></span>&nbsp; Results update live as you type
+      </div>
+    </div>
+    <button class="btn-calc" id="btn-calc" onclick="manualCalc()">⚡ Calculate My Plan</button>
+
+    <!-- ══════════════════════════════════
+         RESULTS
+    ══════════════════════════════════ -->
+    <div id="results">
+
+      <!-- ADSENSE — MID PAGE -->
+      <div class="ad-slot" style="margin-top:24px">
+        <!-- ADSENSE PLACEHOLDER — MID responsive --><script>
+  var adW4 = Math.min(300, window.innerWidth - 32);
+  var adH4 = adW4 < 280 ? 100 : 250;
+  atOptions = {
+    'key' : '4dfb8d9451d9e0fdbf213983cd3c21b2',
+    'format' : 'iframe',
+    'height' : adH4,
+    'width' : adW4,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/4dfb8d9451d9e0fdbf213983cd3c21b2/invoke.js"></script>
+
+        
+      </div>
+
+      <!-- STATS CARD -->
+      <div class="card animate-in">
+        <div class="card-title"><div class="icon">📊</div> Your Results</div>
+
+        <div class="stat-grid">
+          <div class="stat-card gold">
+            <div class="stat-label">Basal Metabolic Rate</div>
+            <div class="stat-value" id="res-bmr">—</div>
+            <div class="stat-unit">BMR · kcal/day</div>
+          </div>
+          <div class="stat-card teal">
+            <div class="stat-label">Total Daily Expenditure</div>
+            <div class="stat-value" id="res-tdee">—</div>
+            <div class="stat-unit">TDEE · kcal/day</div>
+          </div>
+        </div>
+
+        <div class="calorie-hero">
+          <div class="calorie-goal-tag cut" id="goal-tag">🔥 Cutting</div>
+          <div class="calorie-label">🎯 Daily Calorie Target</div>
+          <div class="calorie-num" id="res-target">—</div>
+          <div class="calorie-sub" id="res-target-sub">500 kcal deficit applied</div>
+        </div>
+
+        <div class="section-label">Macro Breakdown</div>
+        <div class="macro-grid">
+          <div class="macro-item prot">
+            <div class="macro-name">Protein</div>
+            <div class="macro-g"><span id="m-prot">—</span>g</div>
+            <div class="macro-kcal" id="m-prot-kcal">—</div>
+            <div class="macro-bar"><div class="macro-fill" id="bar-prot"></div></div>
+          </div>
+          <div class="macro-item carb">
+            <div class="macro-name">Carbs</div>
+            <div class="macro-g"><span id="m-carb">—</span>g</div>
+            <div class="macro-kcal" id="m-carb-kcal">—</div>
+            <div class="macro-bar"><div class="macro-fill" id="bar-carb"></div></div>
+          </div>
+          <div class="macro-item fat">
+            <div class="macro-name">Fats</div>
+            <div class="macro-g"><span id="m-fat">—</span>g</div>
+            <div class="macro-kcal" id="m-fat-kcal">—</div>
+            <div class="macro-bar"><div class="macro-fill" id="bar-fat"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COPY BUTTON -->
+      <div class="btn-copy-wrap">
+        <button class="btn-copy" id="btn-copy" onclick="copyReport(event)">
+          <span id="copy-icon">📋</span>
+          <span id="copy-label">Copy Daily Report</span>
+        </button>
+      </div>
+
+      <!-- ═══ XP SYSTEM CARD ═══ -->
+      <div class="card animate-in" id="xp-card">
+        <div class="card-title"><div class="icon">⭐</div> Your XP Level & Progress</div>
+
+        <!-- Level toast notification -->
+        <div id="xp-toast" class="xp-toast" style="display:none"></div>
+
+        <!-- Level badges row -->
+        <div class="xp-level-row">
+          <div class="xp-level-badge" id="xp-badge">
+            <div class="xp-badge-icon" id="xp-badge-icon">🥉</div>
+            <div class="xp-badge-label" id="xp-badge-label">Beginner</div>
+          </div>
+          <div class="xp-stats-col">
+            <div class="xp-points-row">
+              <span class="xp-pts-num" id="xp-total">0</span>
+              <span class="xp-pts-label">Total XP</span>
+            </div>
+            <div class="xp-next-row" id="xp-next-row">Next level: <span id="xp-next-pts">—</span> XP needed</div>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-track">
+            <div class="xp-bar-fill" id="xp-bar-fill"></div>
+            <div class="xp-bar-label" id="xp-bar-label">0 / 0 XP</div>
+          </div>
+          <div class="xp-level-labels">
+            <span id="xp-cur-level-lbl">Lv 1</span>
+            <span id="xp-nxt-level-lbl">Lv 2</span>
+          </div>
+        </div>
+
+        <!-- XP Protocol info -->
+        <div class="xp-proto-chips">
+          <div class="xp-proto-chip chip16">
+            <span class="xp-chip-proto">16:8</span>
+            <span class="xp-chip-pts">+10 XP / day</span>
+          </div>
+          <div class="xp-proto-chip chip18">
+            <span class="xp-chip-proto">18:6</span>
+            <span class="xp-chip-pts">+20 XP / day</span>
+          </div>
+          <div class="xp-proto-chip chip20">
+            <span class="xp-chip-proto">20:4</span>
+            <span class="xp-chip-pts">+40 XP / day</span>
+          </div>
+        </div>
+
+        <!-- Log fast button -->
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <button class="btn-log-fast" id="btn-log-fast" onclick="logFast()">✅ &nbsp;Log Today's Fast (+XP)</button>
+          <button class="btn-reset-xp" onclick="resetXP()">↺ Reset XP</button>
+        </div>
+
+        <!-- Chart -->
+        <div class="xp-chart-wrap">
+          <div class="xp-chart-title">📈 XP Progress — Last 14 Days</div>
+          <canvas id="xp-chart" height="160"></canvas>
+          <div id="xp-chart-empty" class="xp-chart-empty">Log your first fast to see your chart! 🚀</div>
+        </div>
+      </div>
+
+      <!-- FASTING TIMELINE -->
+      <div class="card animate-in">
+        <div class="card-title"><div class="icon">🕐</div> Your Fasting Schedule</div>
+        <div class="fast-timeline">
+          <div class="timeline-row">
+            <div class="tl-block fasting">
+              <div class="tl-tag">🔴 FASTING WINDOW</div>
+              <div class="tl-time" id="tl-fast-time">—</div>
+              <div class="tl-dur"  id="tl-fast-dur">—</div>
+            </div>
+            <div class="tl-block eating">
+              <div class="tl-tag">🟢 EATING WINDOW</div>
+              <div class="tl-time" id="tl-eat-time">—</div>
+              <div class="tl-dur"  id="tl-eat-dur">—</div>
+            </div>
+          </div>
+          <div class="time-chips" id="time-chips"></div>
+        </div>
+      </div>
+
+      <!-- COLLAPSIBLE CHEAT SHEET -->
+      <div class="collapsible-card" id="cheat-card">
+        <div class="collapsible-header" onclick="toggleCheatSheet()">
+          <div class="collapsible-header-left">
+            <div class="icon">💡</div> What to Drink During Your Fast
+          </div>
+          <div class="collapse-arrow" id="cheat-arrow">▼</div>
+        </div>
+        <div class="collapsible-body" id="cheat-body">
+          <div class="cheat-grid">
+            <div class="cheat-col allowed">
+              <div class="cheat-col-title">🟩 Allowed — Won't Break Your Fast</div>
+              <ul class="cheat-list">
+                <li><span class="cheat-icon">✓</span> Plain water — still or sparkling</li>
+                <li><span class="cheat-icon">✓</span> Black coffee — zero sugar, zero milk</li>
+                <li><span class="cheat-icon">✓</span> Unsweetened green or herbal tea</li>
+                <li><span class="cheat-icon">✓</span> Plain black tea — no additives</li>
+                <li><span class="cheat-icon">✓</span> Unflavored sparkling water</li>
+                <li><span class="cheat-icon">✓</span> Zero-calorie electrolytes (no sweeteners)</li>
+              </ul>
+            </div>
+            <div class="cheat-col forbidden">
+              <div class="cheat-col-title">🟥 Forbidden — Will Break Your Fast</div>
+              <ul class="cheat-list">
+                <li><span class="cheat-icon">✕</span> Fruit juices — natural or processed</li>
+                <li><span class="cheat-icon">✕</span> Any milk (whole, skim, oat, almond)</li>
+                <li><span class="cheat-icon">✕</span> Diet sodas with artificial sweeteners</li>
+                <li><span class="cheat-icon">✕</span> Coffee with sugar, milk, or syrup</li>
+                <li><span class="cheat-icon">✕</span> Protein shakes or smoothies</li>
+                <li><span class="cheat-icon">✕</span> Any food, gum, or supplement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADSENSE — IN-RESULTS BANNER -->
+      <div class="ad-slot">
+        <!-- ADSENSE PLACEHOLDER — IN-RESULTS responsive --><script>
+  var adW2 = Math.min(728, window.innerWidth - 32);
+  var adH2 = adW2 < 400 ? 60 : 90;
+  atOptions = {
+    'key' : 'dabcef18b2054e5d482c8df8d5ee065a',
+    'format' : 'iframe',
+    'height' : adH2,
+    'width' : adW2,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/dabcef18b2054e5d482c8df8d5ee065a/invoke.js"></script>
+
+       
+      </div>
+
+      <!-- LIVE TIMER -->
+      <div class="timer-section animate-in" id="timer-section">
+        <div class="timer-title" id="timer-title">⏱ &nbsp; LIVE FASTING TIMER</div>
+        <div class="timer-progress-wrap">
+          <div class="timer-progress-bar" id="timer-prog"></div>
+        </div>
+        <div class="timer-display" id="timer-display">00:00:00</div>
+        <div class="timer-celebrate-msg" id="timer-celebrate-msg">🎉 Congratulations! Your fast is complete!</div>
+        <div class="timer-state">Status: <span id="timer-phase">Waiting to start</span></div>
+        <div class="timer-btns">
+          <button class="btn-timer btn-start" id="btn-start" onclick="startTimer()">▶&nbsp; Start Fasting Now</button>
+          <button class="btn-timer btn-reset" onclick="resetTimer()">↺&nbsp; Reset</button>
+        </div>
+      </div>
+
+      <!-- ADSENSE — BOTTOM RECTANGLE -->
+      <div class="ad-slot">
+        <!-- ADSENSE PLACEHOLDER — BOTTOM responsive --><script>
+  var adW3 = Math.min(300, window.innerWidth - 32);
+  var adH3 = adW3 < 280 ? 100 : 250;
+  atOptions = {
+    'key' : '4dfb8d9451d9e0fdbf213983cd3c21b2',
+    'format' : 'iframe',
+    'height' : adH3,
+    'width' : adW3,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/4dfb8d9451d9e0fdbf213983cd3c21b2/invoke.js"></script>
+
+        
+      </div>
+
+    </div><!-- /results -->
+
+    <!-- ═══ SEO CONTENT (Google reads, users can skim) ═══ -->
+    <section class="seo-section" aria-label="About Intermittent Fasting">
+      <h2>What Is Intermittent Fasting? A Complete Guide</h2>
+      <p><strong>Intermittent fasting (IF)</strong> is an eating pattern that cycles between periods of fasting and eating. Unlike traditional diets that restrict what you eat, intermittent fasting focuses on <em>when</em> you eat. Research from institutions including Harvard Medical School and Johns Hopkins has linked IF to weight loss, improved insulin sensitivity, reduced inflammation, and enhanced brain function.</p>
+
+      <h3>The 3 Most Popular IF Protocols</h3>
+      <p><strong>16:8 (Leangains Protocol):</strong> Fast for 16 hours, eat within an 8-hour window. The most popular approach — easy to maintain by skipping breakfast and eating between noon and 8 PM. Ideal for beginners and those seeking sustainable fat loss.</p>
+      <p><strong>18:6:</strong> A more aggressive version with an 18-hour fast and 6-hour eating window. Accelerates fat burning while preserving muscle mass when paired with adequate protein intake (2g per kg of bodyweight).</p>
+      <p><strong>20:4 (Warrior Diet):</strong> One large meal and a 4-hour eating window. Best suited for experienced fasters with high discipline. Often combined with resistance training for body recomposition.</p>
+
+      <h3>How FastingMet Calculates Your Calories</h3>
+      <p>FastingMet uses the <strong>Mifflin-St Jeor equation</strong>, the gold standard for BMR estimation validated in clinical studies:</p>
+      <ul>
+        <li><strong>Men:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) − (5 × age) + 5</li>
+        <li><strong>Women:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) − (5 × age) − 161</li>
+      </ul>
+      <p>Your <strong>TDEE (Total Daily Energy Expenditure)</strong> is then calculated by multiplying your BMR by an activity multiplier (1.2 to 1.725). Your daily calorie target adjusts based on your goal: a 500 kcal deficit for fat loss, a 300 kcal surplus for muscle gain, or maintenance at TDEE.</p>
+
+      <h3>Optimal Macros for Intermittent Fasting</h3>
+      <p>During your eating window, macro distribution matters significantly. FastingMet calculates:</p>
+      <ul>
+        <li><strong>Protein:</strong> 2g per kg of bodyweight — essential for muscle preservation during fasting, especially in a caloric deficit.</li>
+        <li><strong>Fats:</strong> 25% of your calorie target — supports hormone production and satiety during fasting hours.</li>
+        <li><strong>Carbohydrates:</strong> The remaining calories — prioritize complex carbs around your training window for energy and recovery.</li>
+      </ul>
+
+      <h3>Benefits Backed by Science</h3>
+      <p>Multiple peer-reviewed studies demonstrate that intermittent fasting can: reduce body fat percentage without significant muscle loss when protein intake is optimized, improve insulin sensitivity and fasting blood glucose levels, trigger cellular autophagy (cellular repair process) after 16+ hours of fasting, lower LDL cholesterol and blood triglycerides, and reduce markers of systemic inflammation.</p>
+
+      <div class="seo-faq">
+        <div class="faq-item">
+          <div class="faq-q">Does coffee break a 16:8 fast?</div>
+          <div class="faq-a">Plain black coffee (no sugar, milk, or cream) does not break a fast. It contains fewer than 5 calories and does not trigger an insulin response. It may even enhance fat oxidation during fasted cardio.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How long until intermittent fasting shows results?</div>
+          <div class="faq-a">Most people notice reduced bloating and improved energy within 1–2 weeks. Significant body composition changes typically appear after 4–8 weeks of consistent practice paired with proper calorie targets.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I work out while fasting?</div>
+          <div class="faq-a">Yes. Fasted training can increase fat oxidation. For strength training, scheduling your workout close to your eating window opening allows optimal post-workout nutrition. Consume protein within 30–60 minutes of finishing your training session.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is 16:8 better than 18:6 for weight loss?</div>
+          <div class="faq-a">Both protocols produce similar results when calories are matched. 18:6 creates a slightly longer autophagy window and may reduce total calorie consumption naturally due to a smaller eating window. Choose the protocol you can sustain long-term.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <strong style="color:var(--gold-light)">FastingMet</strong> — Intermittent Fasting &amp; Calorie Calculator<br>
+      <a href="https://satasmag-max.github.io/fastingmet.github.io">satasmag-max.github.io/fastingmet.github.io</a> &nbsp;·&nbsp; Data saved locally — no account needed<br>
+      <span style="color:var(--gold-dim)">★</span> Powered by Mifflin-St Jeor · For informational purposes only
+    </footer>
+
+  </main><!-- /page-wrap -->
+
+  <!-- RIGHT AD RAIL -->
+  <aside class="ad-rail" aria-label="Advertisement">
+    <div class="ad-rail-slot">
+      <!-- ADSENSE PLACEHOLDER — RIGHT RAIL 160x600 Wide Skyscraper --><script>
+  atOptions = {
+    'key' : '450f01af9bb5b46c28191370e06d9810',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/450f01af9bb5b46c28191370e06d9810/invoke.js"></script>
+
+     
+    </div>
+    <div class="ad-rail-slot" style="min-height:300px">
+      <!-- ADSENSE PLACEHOLDER — RIGHT RAIL 160x300 Half Page --><script>
+  atOptions = {
+    'key' : '450f01af9bb5b46c28191370e06d9810',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/450f01af9bb5b46c28191370e06d9810/invoke.js"></script>
+
+     
+    </div>
+  </aside>
+
+</div><!-- /site-wrap -->
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ──────────────────────────────────────────────
+   AUDIO ENGINE
+   All sounds synthesized via Web Audio API.
+   No CDN, no copyright, no external deps.
+────────────────────────────────────────────── */
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx) {
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return _audioCtx;
+}
+
+function playTone(freq, type = 'sine', duration = 0.12, volume = 0.18, delay = 0) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = type;
+  osc.frequency.value = freq;
+  const t0 = ctx.currentTime + delay;
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(volume, t0 + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.start(t0);
+  osc.stop(t0 + duration + 0.01);
+}
+
+// Short click tick for card buttons
+function sfxClick() { playTone(880, 'sine', 0.06, 0.12); }
+
+// Soft confirm beep for calculate / copy
+function sfxConfirm() {
+  playTone(523, 'sine', 0.1, 0.14, 0);
+  playTone(659, 'sine', 0.1, 0.14, 0.1);
+}
+
+// Timer start: ascending two-tone
+function sfxTimerStart() {
+  playTone(440, 'triangle', 0.12, 0.16, 0);
+  playTone(660, 'triangle', 0.15, 0.16, 0.15);
+}
+
+// Timer reset: short descending
+function sfxReset() { playTone(330, 'triangle', 0.1, 0.12); }
+
+// Copy success
+function sfxCopy() {
+  playTone(880, 'sine', 0.08, 0.12, 0);
+  playTone(1100, 'sine', 0.12, 0.1, 0.1);
+}
+
+// Victory chime (C5 E5 G5 C6)
+function sfxVictory() {
+  [[523, 0], [659, 0.18], [784, 0.36], [1047, 0.54]].forEach(([f, d]) =>
+    playTone(f, 'sine', 1.0, 0.28, d));
+}
+
+/* ──────────────────────────────────────────────
+   NUMBER FORMATTING — force Western digits
+────────────────────────────────────────────── */
+const EASTERN = '٠١٢٣٤٥٦٧٨٩';
+function toW(s) { return String(s).replace(/[٠-٩]/g, d => EASTERN.indexOf(d)); }
+function fmt(n)    { return toW(Math.round(n).toLocaleString('en-US')); }
+function fmtInt(n) { return toW(String(Math.round(n))); }
+function fmtTime(h, m) {
+  const hh = h % 24, suffix = hh < 12 ? 'AM' : 'PM';
+  const h12 = hh % 12 === 0 ? 12 : hh % 12;
+  return `${toW(h12)}:${toW(String(m).padStart(2,'0'))} ${suffix}`;
+}
+function addMins(h, m, mins) {
+  const t = h * 60 + m + mins;
+  return { h: Math.floor(t / 60) % 24, m: t % 60 };
+}
+
+/* ──────────────────────────────────────────────
+   UNIT SYSTEM
+────────────────────────────────────────────── */
+let _unit = 'metric';
+
+function setUnit(u) {
+  _unit = u;
+  sfxClick();
+  document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+  document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+  document.getElementById('fields-metric').style.display   = u === 'metric'   ? '' : 'none';
+  document.getElementById('fields-imperial').style.display = u === 'imperial' ? '' : 'none';
+  saveData(); autoCalc();
+}
+
+function getWeightKg() {
+  if (_unit === 'metric') return parseFloat(document.getElementById('weight-kg').value) || 0;
+  return (parseFloat(document.getElementById('weight-lb').value) || 0) * 0.453592;
+}
+function getHeightCm() {
+  if (_unit === 'metric') return parseFloat(document.getElementById('height-cm').value) || 0;
+  const ft = parseFloat(document.getElementById('height-ft').value) || 0;
+  const inch = parseFloat(document.getElementById('height-in').value) || 0;
+  return (ft * 12 + inch) * 2.54;
+}
+function getAge() {
+  return parseFloat(document.getElementById(_unit === 'metric' ? 'age-m' : 'age-i').value) || 0;
+}
+function getActivity() {
+  return parseFloat(document.getElementById(_unit === 'metric' ? 'activity-m' : 'activity-i').value) || 0;
+}
+
+/* ──────────────────────────────────────────────
+   GOAL SELECTOR
+────────────────────────────────────────────── */
+const GOAL_CONFIG = {
+  cut:  { delta: -500, label: '🔥 Cutting',     sub: '500 kcal deficit applied',     cls: 'cut'  },
+  bulk: { delta: +300, label: '💪 Bulking',      sub: '300 kcal surplus applied',     cls: 'bulk' },
+  maint:{ delta:    0, label: '⚖️ Maintenance',  sub: 'Eating at TDEE (no change)',   cls: 'maint'},
+};
+
+document.querySelectorAll('.goal-card').forEach(card => {
+  card.addEventListener('click', () => {
+    sfxClick();
+    document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input').checked = true;
+    saveData(); autoCalc();
+  });
+});
+
+function getGoal() {
+  return document.querySelector('input[name="goal"]:checked')?.value || 'cut';
+}
+
+/* ──────────────────────────────────────────────
+   COLLAPSIBLE CHEAT SHEET
+────────────────────────────────────────────── */
+function toggleCheatSheet() {
+  sfxClick();
+  document.getElementById('cheat-card').classList.toggle('open');
+}
+
+/* ──────────────────────────────────────────────
+   GENDER & PROTOCOL CARDS
+────────────────────────────────────────────── */
+document.querySelectorAll('.gender-card').forEach(card => {
+  card.addEventListener('click', () => {
+    sfxClick();
+    document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input').checked = true;
+    saveData(); autoCalc();
+  });
+});
+
+document.querySelectorAll('.proto-card').forEach(card => {
+  card.addEventListener('click', () => {
+    sfxClick();
+    document.querySelectorAll('.proto-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input').checked = true;
+    saveData(); autoCalc();
+  });
+});
+
+/* ──────────────────────────────────────────────
+   FEATURE 1 — LIVE AUTO-CALCULATION
+────────────────────────────────────────────── */
+let _debounce = null;
+function autoCalc() {
+  clearTimeout(_debounce);
+  _debounce = setTimeout(() => calculate(true), 340);
+}
+
+// Wire all input fields
+['weight-kg','height-cm','age-m','weight-lb','height-ft','height-in','age-i'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input',  () => { saveData(); autoCalc(); });
+  el.addEventListener('change', () => { saveData(); autoCalc(); });
+});
+['activity-m','activity-i','startTime'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('change', () => { saveData(); autoCalc(); });
+});
+
+function manualCalc() {
+  const w = getWeightKg(), h = getHeightCm(), a = getAge();
+  if (!w || !h || !a) {
+    sfxClick();
+    // Highlight empty fields
+    const pairs = _unit === 'metric'
+      ? [['weight-kg','height-cm','age-m']]
+      : [['weight-lb','age-i']];
+    pairs[0].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value) { el.classList.add('error'); setTimeout(() => el.classList.remove('error'), 900); }
+    });
+    return;
+  }
+  sfxConfirm();
+  calculate(false);
+}
+
+/* ──────────────────────────────────────────────
+   LOCAL STORAGE
+────────────────────────────────────────────── */
+function saveData() {
+  const d = {
+    unit: _unit,
+    wkg: document.getElementById('weight-kg').value,
+    hcm: document.getElementById('height-cm').value,
+    am:  document.getElementById('age-m').value,
+    acm: document.getElementById('activity-m').value,
+    wlb: document.getElementById('weight-lb').value,
+    hft: document.getElementById('height-ft').value,
+    hin: document.getElementById('height-in').value,
+    ai:  document.getElementById('age-i').value,
+    aci: document.getElementById('activity-i').value,
+    startTime: document.getElementById('startTime').value,
+    gender:   document.querySelector('input[name="gender"]:checked')?.value   || 'male',
+    protocol: document.querySelector('input[name="protocol"]:checked')?.value || '18',
+    goal:     document.querySelector('input[name="goal"]:checked')?.value     || 'cut',
+  };
+  try { localStorage.setItem('FM_v2', JSON.stringify(d)); } catch(e) {}
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem('FM_v2');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+
+    if (d.unit) { _unit = d.unit; setUnit(d.unit); }
+
+    const setV = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.value = v; };
+    setV('weight-kg', d.wkg); setV('height-cm', d.hcm); setV('age-m', d.am); setV('activity-m', d.acm);
+    setV('weight-lb', d.wlb); setV('height-ft', d.hft); setV('height-in', d.hin); setV('age-i', d.ai); setV('activity-i', d.aci);
+    setV('startTime', d.startTime);
+
+    if (d.gender) {
+      const r = document.querySelector(`input[name="gender"][value="${d.gender}"]`);
+      if (r) r.checked = true;
+      document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+      const gc = document.getElementById(`card-${d.gender}`);
+      if (gc) gc.classList.add('selected');
+    }
+    if (d.protocol) {
+      const r = document.querySelector(`input[name="protocol"][value="${d.protocol}"]`);
+      if (r) r.checked = true;
+      document.querySelectorAll('.proto-card').forEach(c => c.classList.remove('selected'));
+      const pc = document.getElementById(`proto-${d.protocol}`);
+      if (pc) pc.classList.add('selected');
+    }
+    if (d.goal) {
+      const r = document.querySelector(`input[name="goal"][value="${d.goal}"]`);
+      if (r) r.checked = true;
+      document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+      const gc = document.getElementById(`goal-${d.goal}`);
+      if (gc) gc.classList.add('selected');
+    }
+
+    const hasData = (d.wkg || d.wlb) && (d.hcm || d.hft) && (d.am || d.ai);
+    if (hasData) calculate(true);
+  } catch(e) {}
+}
+
+/* ──────────────────────────────────────────────
+   CACHE (for copy-report)
+────────────────────────────────────────────── */
+let _cache = {};
+
+/* ──────────────────────────────────────────────
+   CORE CALCULATION
+────────────────────────────────────────────── */
+function calculate(silent = false) {
+  const weight   = getWeightKg();
+  const height   = getHeightCm();
+  const age      = getAge();
+  const activity = getActivity();
+  const gender   = document.querySelector('input[name="gender"]:checked')?.value || 'male';
+  const protocol = parseInt(document.querySelector('input[name="protocol"]:checked')?.value || '18', 10);
+  const startVal = document.getElementById('startTime').value || '12:00';
+  const goal     = getGoal();
+
+  if (!weight || !height || !age || !activity || weight < 1 || height < 1 || age < 1) return;
+
+  // BMR (Mifflin-St Jeor)
+  const bmr  = 10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161);
+  const tdee = bmr * activity;
+  const cfg  = GOAL_CONFIG[goal];
+  const target = Math.max(800, tdee + cfg.delta);
+
+  // Macros
+  const protG    = weight * 2;
+  const protKcal = protG * 4;
+  const fatKcal  = target * 0.25;
+  const fatG     = fatKcal / 9;
+  const carbKcal = Math.max(0, target - protKcal - fatKcal);
+  const carbG    = carbKcal / 4;
+  const totalK   = protKcal + fatKcal + carbKcal || 1;
+
+  // Timeline
+  const [sh, sm] = startVal.split(':').map(Number);
+  const eatHours  = 24 - protocol;
+  const eatEnd    = addMins(sh, sm, eatHours * 60);
+  const fastStart = eatEnd;
+
+  // Cache for copy
+  _cache = { target, protG, carbG, fatG, eatHours, protocol,
+             startStr: fmtTime(sh, sm), endStr: fmtTime(eatEnd.h, eatEnd.m), goal };
+
+  // DOM — stats
+  document.getElementById('res-bmr').textContent    = fmt(bmr);
+  document.getElementById('res-tdee').textContent   = fmt(tdee);
+  document.getElementById('res-target').textContent = fmt(target);
+
+  // Goal tag
+  const tag = document.getElementById('goal-tag');
+  tag.textContent  = cfg.label;
+  tag.className    = 'calorie-goal-tag ' + cfg.cls;
+  document.getElementById('res-target-sub').textContent = cfg.sub;
+
+  // DOM — macros
+  document.getElementById('m-prot').textContent     = fmtInt(protG);
+  document.getElementById('m-prot-kcal').textContent = fmt(protKcal) + ' kcal';
+  document.getElementById('m-carb').textContent     = fmtInt(carbG);
+  document.getElementById('m-carb-kcal').textContent = fmt(carbKcal) + ' kcal';
+  document.getElementById('m-fat').textContent      = fmtInt(fatG);
+  document.getElementById('m-fat-kcal').textContent  = fmt(fatKcal)  + ' kcal';
+
+  setTimeout(() => {
+    document.getElementById('bar-prot').style.width = Math.min(100, protKcal / totalK * 100) + '%';
+    document.getElementById('bar-carb').style.width = Math.min(100, carbKcal / totalK * 100) + '%';
+    document.getElementById('bar-fat').style.width  = Math.min(100, fatKcal  / totalK * 100) + '%';
+  }, 80);
+
+  // DOM — timeline
+  document.getElementById('tl-fast-time').textContent = `${fmtTime(fastStart.h, fastStart.m)} → ${fmtTime(sh, sm)}`;
+  document.getElementById('tl-fast-dur').textContent  = `${protocol} hrs fasting`;
+  document.getElementById('tl-eat-time').textContent  = `${fmtTime(sh, sm)} → ${fmtTime(eatEnd.h, eatEnd.m)}`;
+  document.getElementById('tl-eat-dur').textContent   = `${eatHours} hrs eating`;
+
+  document.getElementById('time-chips').innerHTML = [
+    `<div class="chip">Eating opens: <span>${fmtTime(sh, sm)}</span></div>`,
+    `<div class="chip">Eating closes: <span>${fmtTime(eatEnd.h, eatEnd.m)}</span></div>`,
+    `<div class="chip">Fast begins: <span>${fmtTime(fastStart.h, fastStart.m)}</span></div>`,
+  ].join('');
+
+  window._fastingHours = protocol;
+
+  // Show results
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('live-badge').classList.add('show');
+  document.getElementById('btn-calc').textContent = '🎯 Scroll to My Plan ↓';
+
+  if (!silent) {
+    sfxConfirm();
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  saveData();
+}
+
+/* ──────────────────────────────────────────────
+   FEATURE 2 — COPY DAILY REPORT
+────────────────────────────────────────────── */
+function copyReport(e) {
+  if (!_cache.target) return;
+  sfxCopy();
+
+  const goalNames = { cut:'Cutting (−500 kcal)', bulk:'Bulking (+300 kcal)', maint:'Maintenance' };
+  const report = [
+    `🎯 FastingMet — Daily Fasting & Calorie Report`,
+    `─────────────────────────────────────────`,
+    `• Goal             : ${goalNames[_cache.goal] || _cache.goal}`,
+    `• Daily Target     : ${fmt(_cache.target)} kcal`,
+    `• Macros           : Protein ${fmtInt(_cache.protG)}g  |  Carbs ${fmtInt(_cache.carbG)}g  |  Fats ${fmtInt(_cache.fatG)}g`,
+    `• Eating Window    : ${_cache.startStr} → ${_cache.endStr}  (${_cache.eatHours} hrs)`,
+    `• Fasting Window   : ${_cache.protocol} hrs`,
+    `─────────────────────────────────────────`,
+    `🔗 Calculate your own plan free at: https://satasmag-max.github.io/fastingmet.github.io`,
+  ].join('\n');
+
+  const btn  = document.getElementById('btn-copy');
+  const rect = btn.getBoundingClientRect();
+  const rip  = document.createElement('span');
+  rip.className = 'copy-ripple';
+  rip.style.left = (e.clientX - rect.left) + 'px';
+  rip.style.top  = (e.clientY - rect.top)  + 'px';
+  btn.appendChild(rip);
+  setTimeout(() => rip.remove(), 700);
+
+  const succeed = () => {
+    btn.classList.add('copied');
+    document.getElementById('copy-icon').textContent  = '✓';
+    document.getElementById('copy-label').textContent = 'Copied to Clipboard!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      document.getElementById('copy-icon').textContent  = '📋';
+      document.getElementById('copy-label').textContent = 'Copy Daily Report';
+    }, 2400);
+  };
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(report).then(succeed).catch(() => legacyCopy(report, succeed));
+  } else {
+    legacyCopy(report, succeed);
+  }
+}
+
+function legacyCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+/* ──────────────────────────────────────────────
+   LIVE FASTING TIMER
+────────────────────────────────────────────── */
+let _tInterval = null, _tRunning = false, _tStart = null, _tTotal = 0;
+
+function startTimer() {
+  if (_tRunning) return;
+  sfxTimerStart();
+  const hours = window._fastingHours || 16;
+  _tTotal = hours * 3600;
+  _tStart = Date.now();
+  _tRunning = true;
+  try { localStorage.setItem('FM_tStart', _tStart); localStorage.setItem('FM_tTotal', _tTotal); } catch(e) {}
+  document.getElementById('timer-phase').textContent = `Fasting · ${hours} hrs`;
+  document.getElementById('btn-start').disabled = true;
+  _tInterval = setInterval(_tick, 500);
+  _tick();
+}
+
+function _tick() {
+  const elapsed   = Math.floor((Date.now() - _tStart) / 1000);
+  const remaining = Math.max(0, _tTotal - elapsed);
+  const hh = Math.floor(remaining / 3600);
+  const mm = Math.floor((remaining % 3600) / 60);
+  const ss = remaining % 60;
+
+  document.getElementById('timer-display').textContent =
+    `${toW(String(hh).padStart(2,'0'))}:${toW(String(mm).padStart(2,'0'))}:${toW(String(ss).padStart(2,'0'))}`;
+
+  document.getElementById('timer-prog').style.width = Math.min(100, elapsed / _tTotal * 100) + '%';
+
+  if (remaining > 0) {
+    const hLeft = (remaining / 3600).toFixed(1);
+    document.getElementById('timer-phase').textContent = `Fasting — ${toW(hLeft)} hrs remaining`;
+  } else {
+    clearInterval(_tInterval);
+    _tRunning = false;
+    try { localStorage.removeItem('FM_tStart'); localStorage.removeItem('FM_tTotal'); } catch(e) {}
+    _celebrate();
+  }
+}
+
+function resetTimer() {
+  sfxReset();
+  clearInterval(_tInterval);
+  _tRunning = false; _tStart = null;
+  try { localStorage.removeItem('FM_tStart'); localStorage.removeItem('FM_tTotal'); } catch(e) {}
+  document.getElementById('timer-display').textContent = '00:00:00';
+  document.getElementById('timer-display').classList.remove('done');
+  document.getElementById('timer-prog').style.width = '0%';
+  document.getElementById('timer-prog').classList.remove('done');
+  document.getElementById('timer-phase').textContent = 'Waiting to start';
+  document.getElementById('timer-celebrate-msg').style.display = 'none';
+  document.getElementById('timer-section').classList.remove('celebrating');
+  document.getElementById('timer-title').innerHTML = '⏱ &nbsp; LIVE FASTING TIMER';
+  document.getElementById('btn-start').disabled = false;
+  _stopConfetti(); _stopEmojis();
+}
+
+function _restoreTimer() {
+  try {
+    const s = parseInt(localStorage.getItem('FM_tStart'), 10);
+    const t = parseInt(localStorage.getItem('FM_tTotal'), 10);
+    if (!s || !t || isNaN(s) || isNaN(t)) return;
+    const elapsed = Math.floor((Date.now() - s) / 1000);
+    if (elapsed < t) {
+      _tStart = s; _tTotal = t; _tRunning = true;
+      document.getElementById('timer-phase').textContent = `Fasting · ${Math.round(t/3600)} hrs`;
+      document.getElementById('btn-start').disabled = true;
+      _tInterval = setInterval(_tick, 500); _tick();
+    } else {
+      localStorage.removeItem('FM_tStart'); localStorage.removeItem('FM_tTotal');
+    }
+  } catch(e) {}
+}
+
+/* ──────────────────────────────────────────────
+   CELEBRATION ENGINE (Feature 4)
+────────────────────────────────────────────── */
+function _celebrate() {
+  // Audio victory chime
+  sfxVictory();
+
+  // UI
+  document.getElementById('timer-display').classList.add('done');
+  document.getElementById('timer-prog').classList.add('done');
+  document.getElementById('timer-prog').style.width = '100%';
+  document.getElementById('timer-phase').textContent = 'Fast complete! 🏆';
+  document.getElementById('timer-celebrate-msg').style.display = 'block';
+  document.getElementById('timer-section').classList.add('celebrating');
+  document.getElementById('timer-title').textContent = '🏆  FAST COMPLETE';
+  document.getElementById('btn-start').disabled = false;
+
+  // Canvas confetti
+  _launchConfetti();
+
+  // Floating emoji burst
+  _launchEmojis();
+}
+
+/* ── CANVAS CONFETTI */
+let _cRAF = null, _cParticles = [];
+const COLORS = ['#c9a84c','#e8c96d','#2dd4bf','#f87171','#a78bfa','#4ade80','#60a5fa','#fff','#fb923c'];
+
+function _launchConfetti() {
+  const cv = document.getElementById('confetti-canvas');
+  cv.style.display = 'block';
+  cv.width  = window.innerWidth;
+  cv.height = window.innerHeight;
+
+  _cParticles = Array.from({ length: 220 }, () => ({
+    x:    Math.random() * cv.width,
+    y:    -10 - Math.random() * 300,
+    r:    3 + Math.random() * 7,
+    spd:  1.2 + Math.random() * 2.8,
+    color:COLORS[Math.floor(Math.random() * COLORS.length)],
+    angle:Math.random() * Math.PI * 2,
+    spin: (Math.random() - .5) * .22,
+    wave: Math.random() * Math.PI * 2,
+    wSpd: .025 + Math.random() * .04,
+    shape:['rect','circle','tri'][Math.floor(Math.random() * 3)],
+    aspect:0.4 + Math.random() * 0.6,
+  }));
+
+  let frame = 0;
+  function draw() {
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    frame++;
+    let alive = 0;
+    _cParticles.forEach(p => {
+      p.y += p.spd; p.wave += p.wSpd; p.x += Math.sin(p.wave) * 1.6; p.spin += .014;
+      if (p.y < cv.height + 20) alive++;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.spin);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = Math.max(0, 1 - frame / 300);
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.r / 2, -p.r * p.aspect / 2, p.r, p.r * p.aspect);
+      } else if (p.shape === 'circle') {
+        ctx.beginPath(); ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.moveTo(0, -p.r / 2); ctx.lineTo(p.r / 2, p.r / 2); ctx.lineTo(-p.r / 2, p.r / 2); ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    });
+    if (alive > 0 && frame < 340) _cRAF = requestAnimationFrame(draw);
+    else _stopConfetti();
+  }
+  if (_cRAF) cancelAnimationFrame(_cRAF);
+  _cRAF = requestAnimationFrame(draw);
+  setTimeout(_stopConfetti, 6000);
+}
+
+function _stopConfetti() {
+  if (_cRAF) { cancelAnimationFrame(_cRAF); _cRAF = null; }
+  const cv = document.getElementById('confetti-canvas');
+  cv.getContext('2d').clearRect(0, 0, cv.width, cv.height);
+  cv.style.display = 'none';
+  _cParticles = [];
+}
+
+/* ── FLOATING EMOJI BURST */
+const PARTY_EMOJIS = ['🎉','🎊','🏆','⭐','✨','💪','🔥','🥇','🎈','🌟'];
+let _emojiTimer = null;
+
+function _launchEmojis() {
+  const layer = document.getElementById('emoji-layer');
+  layer.style.display = 'block';
+  layer.innerHTML = '';
+  let count = 0;
+
+  function spawnEmoji() {
+    if (count >= 30) return;
+    count++;
+    const el = document.createElement('div');
+    el.className = 'fly-emoji';
+    el.textContent = PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)];
+    el.style.left  = (5 + Math.random() * 90) + '%';
+    el.style.fontSize = (20 + Math.random() * 24) + 'px';
+    el.style.animationDuration = (1.8 + Math.random() * 1.5) + 's';
+    el.style.animationDelay    = (Math.random() * 0.3) + 's';
+    layer.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+    _emojiTimer = setTimeout(spawnEmoji, 160);
+  }
+  spawnEmoji();
+  setTimeout(_stopEmojis, 6000);
+}
+
+function _stopEmojis() {
+  clearTimeout(_emojiTimer);
+  const layer = document.getElementById('emoji-layer');
+  layer.style.display = 'none';
+  layer.innerHTML = '';
+}
+
+window.addEventListener('resize', () => {
+  const cv = document.getElementById('confetti-canvas');
+  if (cv.style.display !== 'none') { cv.width = window.innerWidth; cv.height = window.innerHeight; }
+});
+
+/* ══════════════════════════════════════════════════════
+   XP SYSTEM
+══════════════════════════════════════════════════════ */
+
+// XP per protocol: key = fasting hours
+const XP_PER_PROTOCOL = { 16: 10, 18: 20, 20: 40 };
+
+// Level definitions
+const XP_LEVELS = [
+  { level: 1,  minXP:   0, maxXP:   49,  label: 'Beginner',     icon: '🥉', color: '#8b95a8' },
+  { level: 2,  minXP:  50, maxXP:  149,  label: 'Starter',      icon: '🌱', color: '#4ade80' },
+  { level: 3,  minXP: 150, maxXP:  299,  label: 'Consistent',   icon: '⚡', color: '#60a5fa' },
+  { level: 4,  minXP: 300, maxXP:  499,  label: 'Dedicated',    icon: '🔥', color: '#f87171' },
+  { level: 5,  minXP: 500, maxXP:  799,  label: 'Warrior',      icon: '⚔️', color: '#a78bfa' },
+  { level: 6,  minXP: 800, maxXP: 1199,  label: 'Champion',     icon: '🏆', color: '#e8c96d' },
+  { level: 7,  minXP: 1200, maxXP: 1799, label: 'Master',       icon: '🌟', color: '#2dd4bf' },
+  { level: 8,  minXP: 1800, maxXP: 2599, label: 'Legend',       icon: '👑', color: '#c9a84c' },
+  { level: 9,  minXP: 2600, maxXP: 3599, label: 'Elite',        icon: '💎', color: '#c9a84c' },
+  { level: 10, minXP: 3600, maxXP: Infinity, label: 'GOD MODE', icon: '🚀', color: '#c9a84c' },
+];
+
+const LEVEL_UP_MSGS = [
+  '🎉 Amazing! Keep going!',
+  '🔥 You\'re on fire! Level up!',
+  '⚡ New level unlocked! You\'re unstoppable!',
+  '🏆 Champion move! Level up!',
+  '💪 Elite tier achieved! Respect!',
+  '👑 Legendary status! Keep crushing it!',
+];
+
+const ENCOURAGEMENTS = [
+  '💪 Great job logging your fast!',
+  '🌟 You\'re building a powerful habit!',
+  '🔥 Another day, another win!',
+  '⚡ Consistency is your superpower!',
+  '🏆 You\'re crushing it! Keep going!',
+];
+
+function getLevelData(totalXP) {
+  for (let i = XP_LEVELS.length - 1; i >= 0; i--) {
+    if (totalXP >= XP_LEVELS[i].minXP) return XP_LEVELS[i];
+  }
+  return XP_LEVELS[0];
+}
+
+function getNextLevel(totalXP) {
+  const cur = getLevelData(totalXP);
+  const idx = XP_LEVELS.findIndex(l => l.level === cur.level);
+  return idx < XP_LEVELS.length - 1 ? XP_LEVELS[idx + 1] : null;
+}
+
+function loadXPData() {
+  try {
+    const raw = localStorage.getItem('FM_xp');
+    if (!raw) return { totalXP: 0, log: [] };
+    return JSON.parse(raw);
+  } catch(e) { return { totalXP: 0, log: [] }; }
+}
+
+function saveXPData(data) {
+  try { localStorage.setItem('FM_xp', JSON.stringify(data)); } catch(e) {}
+}
+
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function logFast() {
+  const protocol = parseInt(document.querySelector('input[name="protocol"]:checked')?.value || '18', 10);
+  const xpGain   = XP_PER_PROTOCOL[protocol] || 10;
+  const data = loadXPData();
+  const today = todayKey();
+
+  // Prevent double-logging same day
+  const alreadyLogged = data.log.find(e => e.date === today);
+  if (alreadyLogged) {
+    showXPToast(`⚠️ Already logged today's fast! Come back tomorrow.`, false);
+    sfxClick();
+    return;
+  }
+
+  const oldXP  = data.totalXP;
+  const oldLvl = getLevelData(oldXP);
+  data.totalXP += xpGain;
+  data.log.push({ date: today, xp: xpGain, protocol });
+  saveXPData(data);
+
+  sfxConfirm();
+  const newLvl = getLevelData(data.totalXP);
+  const leveled = newLvl.level > oldLvl.level;
+
+  if (leveled) {
+    _celebrate();
+    const msg = LEVEL_UP_MSGS[Math.floor(Math.random() * LEVEL_UP_MSGS.length)];
+    showXPToast(`${newLvl.icon} Level Up! You reached <strong>${newLvl.label}</strong>! +${xpGain} XP · ${msg}`, true);
+  } else {
+    const msg = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+    showXPToast(`${msg} <span style="color:var(--teal)">+${xpGain} XP</span> added!`, false);
+  }
+
+  renderXP(data);
+  renderXPChart(data);
+}
+
+function showXPToast(html, isLevelUp) {
+  const toast = document.getElementById('xp-toast');
+  toast.innerHTML = html;
+  toast.style.display = 'block';
+  toast.style.animation = 'none';
+  toast.offsetHeight; // reflow
+  toast.style.animation = 'xpToastIn .5s cubic-bezier(.34,1.56,.64,1) both';
+  if (isLevelUp) toast.style.borderColor = 'var(--gold)';
+  else           toast.style.borderColor = 'var(--teal)';
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4000);
+}
+
+function renderXP(data) {
+  if (!data) data = loadXPData();
+  const totalXP = data.totalXP;
+  const lvl     = getLevelData(totalXP);
+  const next    = getNextLevel(totalXP);
+
+  document.getElementById('xp-total').textContent      = toW(totalXP);
+  document.getElementById('xp-badge-icon').textContent = lvl.icon;
+  document.getElementById('xp-badge-label').textContent = lvl.label;
+
+  // Progress within this level
+  const lvlMin  = lvl.minXP;
+  const lvlMax  = next ? next.minXP : lvl.minXP + 1;
+  const inLevel = totalXP - lvlMin;
+  const span    = lvlMax - lvlMin;
+  const pct     = next ? Math.min(100, (inLevel / span) * 100) : 100;
+
+  document.getElementById('xp-bar-fill').style.width = pct + '%';
+  document.getElementById('xp-bar-label').textContent = next
+    ? `${toW(inLevel)} / ${toW(span)} XP`
+    : 'MAX LEVEL!';
+
+  document.getElementById('xp-cur-level-lbl').textContent = `Lv ${lvl.level}`;
+  document.getElementById('xp-nxt-level-lbl').textContent = next ? `Lv ${next.level}` : '👑';
+
+  if (next) {
+    const needed = next.minXP - totalXP;
+    document.getElementById('xp-next-row').innerHTML = `Next level: <span>${toW(needed)} XP</span> needed`;
+  } else {
+    document.getElementById('xp-next-row').innerHTML = `<span style="color:var(--gold)">🏆 MAX LEVEL REACHED!</span>`;
+  }
+
+  // Disable log button if already logged today
+  const today = todayKey();
+  const loggedToday = data.log.find(e => e.date === today);
+  const logBtn = document.getElementById('btn-log-fast');
+  if (loggedToday) {
+    logBtn.textContent = `✅ Logged Today (+${loggedToday.xp} XP)`;
+    logBtn.disabled = true;
+  } else {
+    const protocol = parseInt(document.querySelector('input[name="protocol"]:checked')?.value || '18', 10);
+    const xp = XP_PER_PROTOCOL[protocol] || 10;
+    logBtn.textContent = `✅  Log Today's Fast (+${xp} XP)`;
+    logBtn.disabled = false;
+  }
+}
+
+function resetXP() {
+  if (!confirm('Reset all XP and progress? This cannot be undone.')) return;
+  sfxReset();
+  saveXPData({ totalXP: 0, log: [] });
+  renderXP({ totalXP: 0, log: [] });
+  renderXPChart({ totalXP: 0, log: [] });
+  showXPToast('↺ XP reset. Start your journey again! 💪', false);
+}
+
+/* ── XP CHART ── */
+let _xpChartInstance = null;
+
+function renderXPChart(data) {
+  if (!data) data = loadXPData();
+  const canvas = document.getElementById('xp-chart');
+  const empty  = document.getElementById('xp-chart-empty');
+
+  if (!data.log || data.log.length === 0) {
+    canvas.style.display = 'none';
+    empty.style.display  = 'block';
+    return;
+  }
+
+  canvas.style.display = 'block';
+  empty.style.display  = 'none';
+
+  // Build last-14-days labels + cumulative XP
+  const days = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+
+  // Cumulative XP per day
+  let runningXP = 0;
+  // First calculate XP before our 14-day window
+  const firstWindowDate = days[0];
+  data.log.forEach(e => {
+    if (e.date < firstWindowDate) runningXP += e.xp;
+  });
+
+  const dailyXP = days.map(d => {
+    const entry = data.log.find(e => e.date === d);
+    return entry ? entry.xp : 0;
+  });
+
+  const cumulativeXP = [];
+  let cum = runningXP;
+  dailyXP.forEach(xp => { cum += xp; cumulativeXP.push(cum); });
+
+  const labels = days.map(d => {
+    const dt = new Date(d + 'T00:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  });
+
+  const ctx = canvas.getContext('2d');
+
+  if (_xpChartInstance) { _xpChartInstance.destroy(); _xpChartInstance = null; }
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0, 0, 0, 160);
+  grad.addColorStop(0,   'rgba(201,168,76,0.45)');
+  grad.addColorStop(0.5, 'rgba(45,212,191,0.2)');
+  grad.addColorStop(1,   'rgba(45,212,191,0.02)');
+
+  const barColors = dailyXP.map(xp => {
+    if (xp === 40) return 'rgba(201,168,76,0.9)';
+    if (xp === 20) return 'rgba(167,139,250,0.85)';
+    if (xp === 10) return 'rgba(45,212,191,0.8)';
+    return 'rgba(255,255,255,0.08)';
+  });
+
+  _xpChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'line',
+          label: 'Cumulative XP',
+          data: cumulativeXP,
+          borderColor: '#c9a84c',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#c9a84c',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          backgroundColor: grad,
+          tension: 0.4,
+          yAxisID: 'y',
+          order: 1,
+        },
+        {
+          type: 'bar',
+          label: 'XP Earned',
+          data: dailyXP,
+          backgroundColor: barColors,
+          borderRadius: 5,
+          yAxisID: 'y2',
+          order: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: { color: '#8b95a8', font: { size: 11 }, boxWidth: 12 }
+        },
+        tooltip: {
+          backgroundColor: '#161c28',
+          borderColor: 'rgba(201,168,76,0.3)',
+          borderWidth: 1,
+          titleColor: '#e8c96d',
+          bodyColor: '#e8eaf0',
+          padding: 10,
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#4a5568', font: { size: 9 }, maxRotation: 45, minRotation: 45 },
+          grid:  { color: 'rgba(255,255,255,0.04)' },
+        },
+        y: {
+          position: 'left',
+          ticks: { color: '#c9a84c', font: { size: 10 } },
+          grid:  { color: 'rgba(201,168,76,0.08)' },
+          title: { display: true, text: 'Total XP', color: '#c9a84c', font: { size: 10 } },
+        },
+        y2: {
+          position: 'right',
+          ticks: { color: '#2dd4bf', font: { size: 10 } },
+          grid:  { display: false },
+          title: { display: true, text: 'Daily XP', color: '#2dd4bf', font: { size: 10 } },
+          min: 0, max: 50,
+        }
+      }
+    }
+  });
+}
+
+// Update log button XP label whenever protocol changes
+function _xpUpdateBtn() {
+  const data = loadXPData();
+  const today = todayKey();
+  const logBtn = document.getElementById('btn-log-fast');
+  if (!logBtn) return;
+  const loggedToday = data.log.find(e => e.date === today);
+  if (!loggedToday) {
+    const protocol = parseInt(document.querySelector('input[name="protocol"]:checked')?.value || '18', 10);
+    const xp = XP_PER_PROTOCOL[protocol] || 10;
+    logBtn.textContent = `✅  Log Today's Fast (+${xp} XP)`;
+    logBtn.disabled = false;
+  }
+}
+
+document.querySelectorAll('.proto-card').forEach(card => {
+  card.addEventListener('click', _xpUpdateBtn);
+});
+
+/* ──────────────────────────────────────────────
+   INIT
+────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  _restoreTimer();
+
+  // Load Chart.js dynamically
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+  script.onload = () => {
+    const xpData = loadXPData();
+    renderXP(xpData);
+    renderXPChart(xpData);
+  };
+  document.head.appendChild(script);
+});
+</script>
+</body>
+</html>
